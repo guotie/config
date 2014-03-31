@@ -1,0 +1,6 @@
+{
+	"redisProto": "tcp",
+	"redisAddr": "127.0.0.1",
+	"maxNews" : 5000,
+	"floatTest": 1.67
+}
