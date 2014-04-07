@@ -112,3 +112,28 @@ func GetFloat(key string) (float64, bool) {
 
 	return 0.0, false
 }
+
+func GetBoolean(key string) (bool, bool) {
+	v := Get(key)
+	if v == nil {
+		return false, false
+	}
+
+	if i, ok := v.(bool); ok {
+		return i, true
+	}
+
+	return false, false
+}
+
+func GetBooleanDefault(key string, dv bool) bool {
+	v := Get(key)
+	if v == nil {
+		return dv
+	}
+	if i, ok := v.(bool); ok {
+		return i
+	}
+
+	return dv
+}
