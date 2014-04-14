@@ -100,9 +100,11 @@ func scan(val interface{}, rv reflect.Value) (err error) {
 	case reflect.UnsafePointer:
 		panic("Not support type " + rv.Kind().String())
 
+	// should never arrive here
 	case reflect.Ptr:
 		panic("Should not be reflect.Ptr")
 
+	// should never arrive here, too
 	default:
 		panic("Unknown reflect type, Should never arrive here")
 	}
