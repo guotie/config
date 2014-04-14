@@ -165,11 +165,12 @@ func objectStruct(val interface{}, rv reflect.Value) (err error) {
 			valElem = mval[fdtyp.Name]
 			if valElem == nil {
 				valElem = mval[strings.ToLower(fdtyp.Name)]
-				if valElem == nil {
-					continue
-				}
 			}
 		}
+		if valElem == nil {
+			continue
+		}
+
 		err = scan(valElem, fdval)
 		if err != nil {
 			return

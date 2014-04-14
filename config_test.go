@@ -183,9 +183,10 @@ func TestScanSlice(t *testing.T) {
 	type St struct {
 		I   int
 		Str string
+		Ar  []string
 	}
 	var (
-		st1 []*St
+		st1 []St
 		st2 []map[string]int
 		st3 [][]int
 	)
