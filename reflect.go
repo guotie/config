@@ -11,7 +11,12 @@ func scan(val interface{}, rv reflect.Value) (err error) {
 
 	switch rv.Kind() {
 	case reflect.Bool:
-		rv.SetBool(val.(bool))
+		v, ok := val.(bool)
+		if !ok {
+			return fmt.Errorf("Cannot convert val(%v) from type %s to bool.",
+				val, reflect.TypeOf(val).String())
+		}
+		rv.SetBool(v)
 
 	case reflect.Int:
 		fallthrough
@@ -22,7 +27,12 @@ func scan(val interface{}, rv reflect.Value) (err error) {
 	case reflect.Int32:
 		fallthrough
 	case reflect.Int64:
-		rv.SetInt(int64(val.(float64)))
+		v, ok := val.(float64)
+		if !ok {
+			return fmt.Errorf("Cannot convert val(%v) from type %s to float64.",
+				val, reflect.TypeOf(val).String())
+		}
+		rv.SetInt(int64(v))
 
 	case reflect.Uint:
 		fallthrough
@@ -33,15 +43,30 @@ func scan(val interface{}, rv reflect.Value) (err error) {
 	case reflect.Uint32:
 		fallthrough
 	case reflect.Uint64:
-		rv.SetUint(uint64(val.(float64)))
+		v, ok := val.(float64)
+		if !ok {
+			return fmt.Errorf("Cannot convert val(%v) from type %s to float64.",
+				val, reflect.TypeOf(val).String())
+		}
+		rv.SetUint(uint64(v))
 
 	case reflect.Float32:
 		fallthrough
 	case reflect.Float64:
-		rv.SetFloat(val.(float64))
+		v, ok := val.(float64)
+		if !ok {
+			return fmt.Errorf("Cannot convert val(%v) from type %s to float64.",
+				val, reflect.TypeOf(val).String())
+		}
+		rv.SetFloat(v)
 
 	case reflect.String:
-		rv.SetString(val.(string))
+		v, ok := val.(string)
+		if !ok {
+			return fmt.Errorf("Cannot convert val(%v) from type %s to string.",
+				val, reflect.TypeOf(val).String())
+		}
+		rv.SetString(v)
 	// decode the primary types here
 
 	case reflect.Struct:
@@ -79,7 +104,7 @@ func scan(val interface{}, rv reflect.Value) (err error) {
 		panic("Should not be reflect.Ptr")
 
 	default:
-		panic("Should never arrive here")
+		panic("Unknown reflect type, Should never arrive here")
 	}
 
 	return err

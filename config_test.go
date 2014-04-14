@@ -275,3 +275,12 @@ func TestScanArray(t *testing.T) {
 	}
 	fmt.Println(a2)
 }
+
+func TestScanError(t *testing.T) {
+	var a int
+
+	err := Scan("bl", &a)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+}

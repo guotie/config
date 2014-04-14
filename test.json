@@ -44,5 +44,6 @@
 	"if2":{"key1": 1, "key2":["some", "body", "kill"], "key3": { "who":"tiege","do": "try it"}},
 	"if3":4392.9,
 	
-	"a1":[2,3,4,5]
+	"a1":[2,3,4,5], 
+	"bl": true
 }
