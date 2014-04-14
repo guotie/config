@@ -230,3 +230,29 @@ func TestScanSlice(t *testing.T) {
 	Scan("ss3", &st3)
 	fmt.Println("st3", st3)
 }
+
+func TestScanInterface(t *testing.T) {
+	var i1 []interface{}
+
+	err := Scan("if1", &i1)
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+	fmt.Println("i1:", i1)
+
+	var i2 map[string]interface{}
+	err = Scan("if2", &i2)
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+	fmt.Println("i2:", i2)
+
+	var i3 interface{}
+	err = Scan("if3", &i3)
+	fmt.Println("i3:", i3)
+	var i4 []interface{}
+	err = Scan("if3", &i4)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+}

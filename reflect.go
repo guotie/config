@@ -57,7 +57,8 @@ func scan(val interface{}, rv reflect.Value) (err error) {
 		err = array(val, rv)
 
 	case reflect.Interface:
-	// how to do with interface ?
+		// how to do with interface ?
+		rv.Set(reflect.ValueOf(val))
 
 	case 0:
 		fallthrough
@@ -120,7 +121,7 @@ func objectMap(val interface{}, rv reflect.Value) (err error) {
 
 	mval, ok := val.(map[string]interface{})
 	if !ok {
-		return fmt.Errorf("Cannot convert value(%q) to map[string]interface{}, check data!", val)
+		return fmt.Errorf("Cannot convert value(%v) to map[string]interface{}, check data!", val)
 	}
 	if rv.IsNil() {
 		//rv = reflect.MakeMap(rv.Type())
@@ -147,7 +148,7 @@ func objectStruct(val interface{}, rv reflect.Value) (err error) {
 
 	mval, ok := val.(map[string]interface{})
 	if !ok {
-		return fmt.Errorf("Cannot convert value(%q) to map[string]interface{}", val)
+		return fmt.Errorf("Cannot convert value(%v) to map[string]interface{}", val)
 	}
 
 	for i := 0; i < rv.NumField(); i++ {
@@ -181,7 +182,7 @@ func objectStruct(val interface{}, rv reflect.Value) (err error) {
 func array(val interface{}, rv reflect.Value) (err error) {
 	sval, ok := val.([]interface{})
 	if !ok {
-		return fmt.Errorf("Cannot convert val(%q) to []interface{}", val)
+		return fmt.Errorf("Cannot convert val(%v) to []interface{}", val)
 	}
 
 	if rv.IsNil() {
@@ -207,6 +208,7 @@ func array(val interface{}, rv reflect.Value) (err error) {
 				return
 			}
 		}
+
 		subv := reflect.New(rv.Type().Elem())
 		err = scan(valfd, subv)
 		if err != nil {
