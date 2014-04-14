@@ -185,7 +185,7 @@ func array(val interface{}, rv reflect.Value) (err error) {
 		return fmt.Errorf("Cannot convert val(%v) to []interface{}", val)
 	}
 
-	if rv.IsNil() {
+	if rv.Kind() == reflect.Slice && rv.IsNil() {
 		rv.Set(reflect.New(rv.Type()).Elem())
 	}
 	for i, valfd := range sval {

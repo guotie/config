@@ -256,3 +256,21 @@ func TestScanInterface(t *testing.T) {
 		fmt.Println(err.Error())
 	}
 }
+
+func TestScanArray(t *testing.T) {
+	var (
+		a1 [3]int
+		a2 [6]int
+	)
+
+	err := Scan("a1", &a1)
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+	fmt.Println(a1)
+	err = Scan("a1", &a2)
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+	fmt.Println(a2)
+}
