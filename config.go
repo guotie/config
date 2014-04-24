@@ -8,6 +8,8 @@ import (
 	"reflect"
 )
 
+type Config map[string]interface{}
+
 var (
 	cfg         = make(map[string]interface{})
 	KeyNotExist = errors.New("key not exist")
@@ -27,6 +29,22 @@ func ReadCfg(fn string) {
 	if err != nil {
 		panic(err.Error())
 	}
+}
+
+// read config file, return Config
+func ReadConfigFile(fn string) (Config, error) {
+	var c Config
+
+	content, err := ioutil.ReadFile(fn)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal(content, &c)
+	if err != nil {
+		return nil, err
+	}
+
+	return c, nil
 }
 
 // Get
@@ -168,6 +186,21 @@ func GetBooleanDefault(key string, dv bool) bool {
 //
 func Scan(key string, dest interface{}) (err error) {
 	val, ok := cfg[key]
+	if !ok {
+		return KeyNotExist
+	}
+
+	rv := reflect.ValueOf(dest)
+	if rv.Kind() != reflect.Ptr || rv.IsNil() {
+		return fmt.Errorf("param must be pointer and not nil")
+	}
+
+	return scan(val, rv)
+}
+
+// ScanConfig
+func (c Config) ScanConfig(key string, dest interface{}) error {
+	val, ok := c[key]
 	if !ok {
 		return KeyNotExist
 	}
