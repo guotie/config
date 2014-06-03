@@ -182,6 +182,31 @@ func GetBooleanDefault(key string, dv bool) bool {
 	return dv
 }
 
+func GetBytes(key string) ([]byte, bool) {
+	v := Get(key)
+	if v == nil {
+		return []byte(""), false
+	}
+	if i, ok := v.([]byte); ok {
+		return i, true
+	}
+
+	return []byte(""), false
+}
+
+func GetBytesDefault(key string, dv []byte) []byte {
+	v := Get(key)
+	if v == nil {
+		return dv
+	}
+
+	if i, ok := v.([]byte); ok {
+		return i
+	}
+
+	return dv
+}
+
 // Scan
 //
 func Scan(key string, dest interface{}) (err error) {
