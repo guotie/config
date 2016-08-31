@@ -17,18 +17,17 @@ var (
 
 // read config file
 //
-func ReadCfg(fn string) {
+func ReadCfg(fn string) error {
 	if fn == "" {
 		fn = "./config.json"
 	}
 	content, err := ioutil.ReadFile(fn)
 	if err != nil {
-		panic(err.Error())
+		return err
 	}
 	err = json.Unmarshal(content, &cfg)
-	if err != nil {
-		panic(err.Error())
-	}
+
+	return err
 }
 
 // read config file, return Config
